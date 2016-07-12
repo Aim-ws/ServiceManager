@@ -12,9 +12,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity implements OnObtainAppsInterface {
+public class MainActivity extends AppCompatActivity {
 	private ListView mListView;
 	private AppsAdapter adapter;
 	private List<AppBeanInfo> mAppBeans;
@@ -33,30 +34,33 @@ public class MainActivity extends AppCompatActivity implements OnObtainAppsInter
 		mProgressDialog = new ProgressDialog(this, AlertDialog.THEME_HOLO_LIGHT);
 		mProgressDialog.setCancelable(false);
 		
-		new LoadAppsTask(this, this).run();
+		new LoadAppsTask(this, new OnObtainAppsInterface() {
+			
+			@Override
+			public void onObtainSuccess(List<AppBeanInfo> appBeans, List<AppBeanInfo> activeBeans) {
+				// TODO Auto-generated method stub
+				mProgressDialog.dismiss();
+				Log.i("", ""+appBeans.size());
+				mAppBeans.clear();
+				mAppBeans.addAll(appBeans);
+				adapter.notifyDataSetChanged();
+			}
+			
+			@Override
+			public void onObtainStart() {
+				// TODO Auto-generated method stub
+				mProgressDialog.setMessage("应用加载中...");
+				mProgressDialog.show();
+				
+			}
+			
+			@Override
+			public void onObtainFailed() {
+				// TODO Auto-generated method stub
+				mProgressDialog.dismiss();
+			}
+		}).run();
 	}
-
-	@Override
-	public void onObtainStart() {
-		// TODO Auto-generated method stub
-		mProgressDialog.setMessage("正在获取应用列表");
-		mProgressDialog.show();
-	}
-
-	@Override
-	public void onObtainFailed() {
-		// TODO Auto-generated method stub
-		mProgressDialog.dismiss();
-	}
-
-	@Override
-	public void onObtainSuccess(List<AppBeanInfo> appBeans, List<AppBeanInfo> activeBeans) {
-		// TODO Auto-generated method stub
-		mProgressDialog.dismiss();
-		mAppBeans.clear();
-		mAppBeans.addAll(appBeans);
-		adapter.notifyDataSetChanged();
-	}
-
+	
 	
 }

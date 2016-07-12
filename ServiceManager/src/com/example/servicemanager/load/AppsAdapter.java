@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.example.servicemanager.R;
 import com.example.servicemanager.bean.AppBeanInfo;
+import com.example.servicemanager.bean.AppType;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,8 +69,9 @@ public class AppsAdapter extends BaseAdapter{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		AppBeanInfo info = appBeans.get(position);
+		Log.i("", info.toString());
 		viewHolder.mTvAppName.setText(info.app_name);
-		viewHolder.mTvAppType.setText(info.app_app_type);
+		viewHolder.mTvAppType.setText(AppType.appType.get(info.app_app_type));
 		viewHolder.mTvAppPkg.setText(info.app_pkg);
 		viewHolder.mTvAppDate.setText(DateFormat.format("yyyy-MM-dd hh:MM:ss", info.app_install_date));
 		try {
