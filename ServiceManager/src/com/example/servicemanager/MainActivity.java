@@ -8,14 +8,14 @@ import com.example.servicemanager.load.AppsAdapter;
 import com.example.servicemanager.load.LoadAppsTask;
 import com.example.servicemanager.load.OnObtainAppsInterface;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 	private ListView mListView;
 	private AppsAdapter adapter;
 	private List<AppBeanInfo> mAppBeans;
